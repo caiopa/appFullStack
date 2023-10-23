@@ -1,16 +1,53 @@
-import { MenuIcon, ShoppingCartIcon } from "lucide-react";
+import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentCircle } from "lucide-react";
 import { Button } from "./button";
 import { Card } from "./card";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
 
 const Header = () => {
     return ( 
         <Card className="flex justify-between p-[1.875rem] items-center">
-            <Button size="icon" variant="outline">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size="icon" variant="outline">
                 <MenuIcon />
-            </Button>
-            <h1 className="font-semibold text-lg"><span className="text-primary">CPA</span> Store</h1>
+              </Button>
+           </SheetTrigger>
+
+           <SheetContent side="left">
+             <SheetHeader className="text-left text-lg font-semibold">Menu</SheetHeader> 
+
+             <div className="mt-2 flex flex-col gap-2">
+                <Button variant="outline" className="w-full justify-start gap-2">
+                <LogInIcon size={16} />
+                Fazer login
+                </Button>
+
+                <Button variant="outline" className="w-full justify-start gap-2">
+                <PercentCircle size={16} />
+                Início
+                </Button>
+
+                <Button variant="outline" className="w-full justify-start gap-2">
+                <PercentCircle size={16} />
+                Ofertas
+                </Button>
+
+
+                <Button variant="outline" className="w-full justify-start gap-2">
+                <PercentCircle size={16} />
+                Catálogo
+                </Button>
+
+
+             </div>
+           </SheetContent>
+
+          </Sheet>  
+
+        <h1 className="font-semibold text-lg"><span className="text-primary">CPA</span> Store</h1>
+
             <Button size="icon" variant="outline">
-                <ShoppingCartIcon   />
+              <ShoppingCartIcon />
             </Button>
         </Card>
      );
