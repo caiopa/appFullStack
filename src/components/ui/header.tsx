@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback } from "./avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Separator } from './separator';
 import Link from "next/link";
+import SectionTitle from "@/app/(home)/componentes/section-title";
 
 const Header = () => {
     const { status, data } = useSession()
@@ -102,7 +103,11 @@ const Header = () => {
 
           </Sheet>  
 
-        <h1 className="font-semibold text-lg"><span className="text-primary">CPA</span> Store</h1>
+          <Link href="/">
+            <h1 className="font-semibold text-lg">
+              <span className="text-primary">CPA</span> Store
+            </h1>
+          </Link>
 
             <Button size="icon" variant="outline">
               <ShoppingCartIcon />
