@@ -10,8 +10,8 @@ interface ProductItemProps {
 
 function ProductItem({product}: ProductItemProps) {
   return (
-    <div className="flex flex-col gap-4 max-w-[170px]">
-      <div className="flex bg-accent rounded-lg h-[170px] w-[170px] items-center justify-center relative">
+    <div className="flex flex-col gap-4">
+      <div className="flex bg-accent rounded-lg h-[170px] w-full items-center justify-center relative">
         <Image 
          className="h-auto max-h-[70%] w-auto max-w-[80%]"
          src={product.imageUrls[0]}
