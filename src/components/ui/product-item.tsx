@@ -10,8 +10,8 @@ interface ProductItemProps {
 
 function ProductItem({product}: ProductItemProps) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex bg-accent rounded-lg h-[170px] w-[156px] items-center justify-center relative">
+    <div className="flex flex-col gap-4 max-w-[170px]">
+      <div className="flex bg-accent rounded-lg h-[170px] w-[170px] items-center justify-center relative">
         <Image 
          className="h-auto max-h-[70%] w-auto max-w-[80%]"
          src={product.imageUrls[0]}
@@ -32,21 +32,21 @@ function ProductItem({product}: ProductItemProps) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <p className="truncate text-sm">{product.name}</p>
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm">{product.name}</p>
 
         <div className="flex items-center gap-2 ">
           {product.discountPercentage > 0 ? (
             <>
-              <p className="truncate font-semibold">
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
                 R$ {product.totalPrice.toFixed(2)}
               </p>
 
-              <p className="truncate text-xs line-through opacity-75">
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs line-through opacity-75">
                 R$ {Number(product.basePrice).toFixed(2)}
               </p>
             </>
           ) : (
-            <p className="truncate text-sm font-semibold">
+            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
               R$ {product.basePrice.toFixed(2)}
             </p>
           )}
