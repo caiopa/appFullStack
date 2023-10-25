@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback } from "./avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Separator } from './separator';
 import Link from "next/link";
-import SectionTitle from "@/app/(home)/componentes/section-title";
+import SectionTitle from "@/components/ui/section-title";
 
 const Header = () => {
     const { status, data } = useSession()
