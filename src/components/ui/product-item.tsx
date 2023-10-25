@@ -27,7 +27,7 @@ function ProductItem({product}: ProductItemProps) {
           {
             product.discountPercentage > 0 && (
               <Badge className="absolute top-3 left-3 px-2 py-[2px]">
-              <ArrowDownIcon size={14}/> {product.discountPercentage}%
+                <ArrowDownIcon size={14}/> {product.discountPercentage}%
               </Badge>
             )
           }
