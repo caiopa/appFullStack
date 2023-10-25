@@ -9,6 +9,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { Separator } from './separator';
 import Link from "next/link";
 import SectionTitle from "@/components/ui/section-title";
+import Cart from "./cart";
 
 const Header = () => {
     const { status, data } = useSession()
@@ -109,9 +110,17 @@ const Header = () => {
             </h1>
           </Link>
 
-            <Button size="icon" variant="outline">
-              <ShoppingCartIcon />
-            </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size="icon" variant="outline">
+                <ShoppingCartIcon />
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent className="w-[350px]">
+              <Cart />
+            </SheetContent>
+          </Sheet>
         </Card>
      );
 }
