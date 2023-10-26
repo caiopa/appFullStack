@@ -5,31 +5,36 @@ import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
 import { computedTotalPrice } from "@/helpers/products";
 import { Separator } from "./separator";
+import { ScrollArea } from "./scroll-area";
+import { Button } from "./button";
 
 const Cart = () => {
   const { products, total, subTotal, totalDiscount } = useContext(CartContext)
   return ( 
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 h-full">
       <Badge className="w-fit gap-1 text-base uppercase border-2 border-primary px-3 py-[0.375rem]"
       variant={"outline"}>
         <ShoppingCartIcon size={16}/>
         Carrinho
       </Badge>
 
-      <div className="flex flex-col gap-5">
-      {
-        products.length > 0 ? (
-          products.map((product) => (
-            <h1 key={product.name}>
-              <CartItem 
-              key={product.name}
-              product={computedTotalPrice(product) as any} />
-            </h1>
-          ))
-        ) : (
-          <p className="text-center font-semibold">Seu carrinho esta vazio</p>
-        )
-      }
+      <div className="flex h-full max-h-full flex-col gap-5 overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="flex h-full flex-col gap-8">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <CartItem
+                  key={product.id}
+                  product={computedTotalPrice(product) as any}
+                />
+              ))
+            ) : (
+              <p className="text-center font-semibold">
+                Carrinho vazio. Vamos às compras ?
+              </p>
+            )}
+          </div>
+        </ScrollArea>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -54,6 +59,9 @@ const Cart = () => {
           <p>Total</p>
           <p>R$ {total.toFixed(2)}</p>
         </div>
+        <Button className="font-bold mt-7 uppercase">
+          Finalizar compra
+        </Button>
       </div>
     </div>
    );
