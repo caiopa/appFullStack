@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../../../badge";
 import { prismaClient } from "@/lib/prisma";
 import { ShapesIcon } from "lucide-react";
 import CategoryItem from "./components/category-item";
