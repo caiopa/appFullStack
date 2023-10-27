@@ -1,5 +1,5 @@
 import { ShoppingCartIcon } from "lucide-react";
-import { Badge } from "./badge";
+import { Badge } from "../../../badge";
 import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
@@ -9,14 +9,26 @@ import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
+import { create } from "domain";
+import { createOrder } from "@/actions/order";
+import { useSession } from "next-auth/react";
 
 const Cart = () => {
   const { products, total, subTotal, totalDiscount } = useContext(CartContext)
+  const {data} = useSession()
   
   const handleFinalizePurchase = async () => {
-    const checkout = await createCheckout(products)
+    if(!data?.user) {
+      return null
+      // volta para login
+    }
+    const order = await createOrder(products, (data?.user as any).id)
+
+    const checkout = await createCheckout(products, order.id);
     
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!)
+
+
 
     stripe?.redirectToCheckout({
       sessionId: checkout.id
@@ -50,7 +62,9 @@ const Cart = () => {
         </ScrollArea>
       </div>
 
-      <div className="flex flex-col gap-3">
+      {
+        products.length > 0 && (
+          <div className="flex flex-col gap-3">
         <Separator />
         <div className="flex items-center justify-between text-xs">
           <p>Subtotal</p>
@@ -78,6 +92,8 @@ const Cart = () => {
           Finalizar compra
         </Button>
       </div>
+        )
+      }
     </div>
    );
 }

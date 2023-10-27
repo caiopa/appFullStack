@@ -1,36 +1,35 @@
 import { ProductWithTotalPrice } from "@/helpers/products";
 import Image from "next/image";
-import { Badge } from "./badge";
+import { Badge } from "../../../badge";
 import { ArrowDownIcon } from "lucide-react";
 import Link from "next/link";
-
+import { cn } from "@/lib/utils";
+import DiscountBadge from "./discount-badge";
 
 interface ProductItemProps {
   product: ProductWithTotalPrice;
+  className?: string;
 }
 
-function ProductItem({product}: ProductItemProps) {
+function ProductItem({product, className}: ProductItemProps) {
   return (
-    <Link href={`/product/${product.slug}`}>
+    <Link href={`/product/${product.slug}`} 
+    className={cn("flex min-w-[156px] flex-col gap-4", className)}>
       <div className="flex flex-col gap-4">
         <div className="flex bg-accent rounded-lg h-[170px] w-full items-center justify-center relative">
           <Image 
-          className="h-auto max-h-[70%] w-auto max-w-[80%]"
+          className="h-auto max-h-[70%] w-auto max-w-[80%] object-contain"
           src={product.imageUrls[0]}
           alt={product.name} 
           width={0} height={0} sizes="100vw" 
-          style={{
-            objectFit: "contain",
-          }}
+         
           />
 
-          {
-            product.discountPercentage > 0 && (
-              <Badge className="absolute top-3 left-3 px-2 py-[2px]">
-                <ArrowDownIcon size={14}/> {product.discountPercentage}%
-              </Badge>
-            )
-          }
+        {product.discountPercentage > 0 && (
+          <DiscountBadge className="absolute left-3 top-3">
+            {product.discountPercentage}
+          </DiscountBadge>
+        )}  
         </div>
 
         <div className="flex flex-col gap-1">
