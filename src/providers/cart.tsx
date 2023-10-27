@@ -1,6 +1,6 @@
 'use client'
 import { ProductWithTotalPrice } from "@/helpers/products";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
   quantity: number,
@@ -38,7 +38,18 @@ export const CartContext = createContext<ICartContext>({
 
 export const CartProvider = ({children}: {children: React.ReactNode}) => {
   const [products, setProducts] = useState<CartProduct[]>([])
+
+ useEffect(() => {
+  setProducts(
+    JSON.parse(localStorage.getItem("@cpa-store/cart-products") || "[]"),
+    );
+  }, []);
   
+useEffect(() => {
+  localStorage.setItem('@cpa-store/cart-products', JSON.stringify(products))
+}, [products])
+
+
   // total sem descontos
   const subTotal = useMemo(() => {
     return products.reduce((acc, product) => {
