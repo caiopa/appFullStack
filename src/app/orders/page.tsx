@@ -5,7 +5,7 @@ import { PackageSearchIcon } from "lucide-react";
 import { prismaClient } from "@/lib/prisma";
 import OrderItem from "./components/order-item";
 
-export const dynamix = "force-dynamic";
+export const dynamic = "force-dynamic";
 const OrdersPage = async () => {
   const session = await getServerSession(authOptions);
 
