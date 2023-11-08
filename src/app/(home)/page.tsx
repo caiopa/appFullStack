@@ -29,11 +29,19 @@ export default async function Home() {
   })
   return (
     <div className="flex flex-col gap-8 py-8">
-      <PromoBanner
-       src="/banner-home01.png"
-       alt="Até 55% de desconto" />
+      <div>
+        <PromoBanner
+        src="/banner-ofertas.png"
+        className="hidden md:inline md:max-h-[300px]"
+        alt="Até 55% de desconto" />
 
-      <div className=" px-5">
+        <PromoBanner
+        src="/banner-home01.png"
+        className="md:hidden"
+        alt="Até 55% de desconto" />
+      </div>
+
+      <div className="px-5">
         <Categories />
       </div>
 
@@ -43,11 +51,21 @@ export default async function Home() {
         <ProductList products={deals} />
       </div>
 
-      <div>
+      <div className="md:grid md:grid-cols-2">
         <PromoBanner 
         src="/banner-mouses.png" 
         alt="Até 55% de desconto em mouses" 
+        className="md:max-h-[250px]"
         />
+        <div>
+        <PromoBanner 
+        src="/banner-fones.png" 
+        alt="Até 20% de desconto em Fones"
+        className="md:max-h-[250px] hidden md:inline"
+        
+        />
+      </div>
+
        </div>
 
       <div>
@@ -58,7 +76,17 @@ export default async function Home() {
       <div>
         <PromoBanner 
         src="/banner-fones.png" 
-        alt="Até 55% de desconto em mouses" 
+        alt="Até 20% de desconto em Fones"
+        className="md:max-h-[250px] md:hidden"
+        
+        />
+      </div>
+      <div className="hidden md:inline">
+        <PromoBanner 
+        src="/banner-fretegrátis.png" 
+        alt="Até 20% de desconto em Fones"
+        className="md:max-h-[250px]"
+        
         />
       </div>
 

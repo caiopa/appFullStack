@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className='flex flex-col h-full'>
+        <div className='flex flex-col h-full max-w-[1400px] mx-auto'>
           <AuthProvider>
             <CartProvider>
 

@@ -9,18 +9,19 @@ import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
-import { create } from "domain";
 import { createOrder } from "@/actions/order";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const Cart = () => {
   const { products, total, subTotal, totalDiscount } = useContext(CartContext)
   const {data} = useSession()
   
+  const handleLoginClick = async () => {
+    await signIn()
+}
   const handleFinalizePurchase = async () => {
     if(!data?.user) {
-      return null
-      // volta para login
+      handleLoginClick()
     }
     const order = await createOrder(products, (data?.user as any).id)
 

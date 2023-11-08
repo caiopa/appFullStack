@@ -1,5 +1,5 @@
 'use client'
-import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentCircle, ListOrderedIcon, HomeIcon, PackageSearchIcon } from "lucide-react";
+import { MenuIcon, ShoppingCartIcon, LogInIcon, PercentCircle, ListOrderedIcon, HomeIcon, PackageSearchIcon, UserCheck, UserIcon, LogOut } from "lucide-react";
 import { Button } from "./button";
 import { Card } from "./card";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "./sheet";
@@ -8,11 +8,21 @@ import { Avatar, AvatarFallback } from "./avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Separator } from './separator';
 import Link from "next/link";
-import SectionTitle from "@/components/ui/section-title";
 import Cart from "./cart";
+import { useContext } from "react";
+import { CartContext } from "@/providers/cart";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Header = () => {
     const { status, data } = useSession()
+    const { products } = useContext(CartContext);
+
+    const cartQuantityItems = products.length;
     const handleLoginClick = async () => {
         await signIn()
     }
@@ -22,14 +32,15 @@ const Header = () => {
     }
     return ( 
         <Card className="flex justify-between p-[1.875rem] items-center">
+          <div className="md:hidden">          
           <Sheet>
             <SheetTrigger asChild>
               <Button size="icon" variant="outline">
                 <MenuIcon />
               </Button>
-           </SheetTrigger>
+            </SheetTrigger>
            
-           <SheetContent side="left">
+           <SheetContent side="left" className="w-[21.875rem]">
              <SheetHeader className="text-left text-lg font-semibold">Menu</SheetHeader> 
 
              {
@@ -55,6 +66,7 @@ const Header = () => {
                   </div>
                 )
             }
+
 
              <div className="mt-4 flex flex-col gap-2">
 
@@ -110,12 +122,11 @@ const Header = () => {
                     </Button>
                   </Link>
                 </SheetClose>
-                
-
              </div>
            </SheetContent>
 
-          </Sheet>  
+          </Sheet>
+          </div>  
 
           <Link href="/">
             <h1 className="font-semibold text-lg">
@@ -123,17 +134,109 @@ const Header = () => {
             </h1>
           </Link>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button size="icon" variant="outline">
-                <ShoppingCartIcon />
+          <div className="md:flex hidden gap-3">
+            <Link href="/">
+              <Button variant="outline" className="w-full justify-start gap-2 border-none">
+                <HomeIcon size={16} />
+                Início
               </Button>
-            </SheetTrigger>
+            </Link>
 
-            <SheetContent className="w-[350px]">
-              <Cart />
-            </SheetContent>
-          </Sheet>
+            <Link href="/orders">
+              <Button variant="outline" className="w-full justify-start gap-2 border-none">
+                <PackageSearchIcon size={16} />
+                 Meus Pedidos
+              </Button>
+            </Link>
+
+            <Link href="/deals">     
+              <Button variant="outline" className="w-full justify-start gap-2 border-none">
+                <PercentCircle size={16} />
+                Ofertas
+              </Button>
+            </Link>
+
+           
+          </div>
+          <div className="md:hidden">
+
+          
+               <Sheet>
+                <SheetTrigger asChild>
+                  <Button size="icon" variant="outline" className="relative">
+                    {cartQuantityItems > 0 && (
+                      <span className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold">
+                        {cartQuantityItems}
+                      </span>
+                    )}
+                    <ShoppingCartIcon />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="w-[350px]">
+                  <Cart />
+                </SheetContent>
+               </Sheet>
+          </div>
+          <div className="md:flex hidden justify-center items-center gap-3">
+               <div>
+                  {
+                   status === 'unauthenticated' &&
+                      <Button onClick={handleLoginClick} variant="outline" className="w-full justify-start gap-2">
+                      <UserIcon size={16} />
+                      Fazer Login
+                      </Button>
+                  }
+
+                  {                  
+                    status === 'authenticated' && data?.user && (
+                       <div className="flex flex-col">
+                        <div className="py-4 flex items-center gap-2">
+                          <Avatar>
+                            <AvatarFallback>
+                                <UserIcon size={14} />
+                            </AvatarFallback>
+                        
+                            { 
+                            data.user.image && 
+                            <DropdownMenu>
+                              <DropdownMenuTrigger><AvatarImage  src={data.user.image!} /></DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                               <DropdownMenuItem>
+                                <Button onClick={handleLogoutClick} variant="outline" className="w-full justify-start gap-2">
+                                <LogInIcon size={16} />
+                                    Fazer logout
+                                </Button>
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                              
+                            </DropdownMenu>
+                            }
+    
+                          </Avatar>
+                            
+                        </div>
+ 
+                      </div>
+                    )
+                  }
+               </div>
+               <Sheet>
+                <SheetTrigger asChild>
+                  <Button size="icon" variant="outline" className="relative">
+                    {cartQuantityItems > 0 && (
+                      <span className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold">
+                        {cartQuantityItems}
+                      </span>
+                    )}
+                    <ShoppingCartIcon />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="w-[350px]">
+                  <Cart />
+                </SheetContent>
+               </Sheet>
+          </div>
+              
         </Card>
      );
 }
